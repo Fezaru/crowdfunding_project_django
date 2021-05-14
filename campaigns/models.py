@@ -29,6 +29,12 @@ class Campaign(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def get_video(self):
+        url = str(self.video_URL)
+        parts = url.split('watch?v=')
+        return parts[0] + 'embed/' + parts[1] + '?rel=0'
+
 
 def upload_gallery_image(instance, filename):  # change when the gallery is in the cloud
     return f"images/{instance.campaign.name}/gallery/{filename}"
