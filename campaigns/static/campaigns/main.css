@@ -110,3 +110,8 @@ a.article-title:hover {
 article .container {
         padding: 0;
 }
+
+
+.ghost {
+        display: none !important;
+}

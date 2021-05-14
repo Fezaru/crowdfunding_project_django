@@ -45,8 +45,13 @@
                     <!-- PHOTO GALLERY -->
                     <section class="photo_gallery">
                         {% for gallery_image in object.images.all %}
-                        <a href="{{ gallery_image.image.url }}"><img src="{{ gallery_image.image.url }}" alt=""
-                                                                     title=""/></a>
+                          {% if forloop.counter0 < 2 %}
+                            <a href="{{ gallery_image.image.url }}"><img src="{{ gallery_image.image.url }}" alt=""
+                                                                        title=""/></a>
+                          {% else %}
+                            <a class="ghost" href="{{ gallery_image.image.url }}"><img src="{{ gallery_image.image.url }}" alt=""
+                                                                        title=""/></a>
+                          {% endif %}
                         {% endfor %}
                     </section>
 
@@ -54,7 +59,7 @@
             </div>
         </div>
         <div>
-            <iframe width="560" height="315" src="{{ object.get_video }}"
+            <iframe width="100%" height="315" src="{{ object.get_video }}"
                     title="Campaign video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
