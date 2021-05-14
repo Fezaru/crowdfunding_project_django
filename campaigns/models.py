@@ -3,16 +3,26 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-# TODO: add tags model, add get_absolute_url
+# TODO: add tags model, add get_absolute_url, ADD COMMENTS
+
+CAMPAIGN_THEME_CHOICES = (
+    ('all', 'All'),
+    ('education', 'Education'),
+    ('electronics', 'Electronics'),
+    ('entertainment', 'Entertainment'),
+    ('sport', 'Sport'),
+    ('IT', 'IT'),
+)
 
 
 class Campaign(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    theme = models.CharField(max_length=255)
+    theme = models.CharField(max_length=255, choices=CAMPAIGN_THEME_CHOICES, default='all')
     tags = models.CharField(max_length=255)
     video_URL = models.CharField(max_length=255)
     target_money = models.IntegerField()
+    created_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -42,5 +52,6 @@ class Image(models.Model):
 class News(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
+    image = models.ImageField(default='default.jpg', upload_to='news_pics')
     date_posted = models.DateTimeField(default=timezone.now)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)

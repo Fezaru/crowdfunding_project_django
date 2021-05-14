@@ -1,0 +1,64 @@
+{% extends "campaigns/base.html" %}
+{% block content %}
+<article class="media content-section">
+
+    <div class="media-body">
+        <div class="d-flex article-header">
+            <img class="rounded-circle article-img" src="{{ object.owner.profile.image.url }}" alt="">
+            <div class="article-metadata">
+                <div><small class="text-muted">Owner: {{ object.owner }}</small></div>
+                <div><small class="text-muted"> Created: {{ object.created_date|date:"F d, Y" }}</small></div>
+                <div><small class="text-muted">Ends: {{ object.end_date|date:"F d, Y" }}</small></div>
+                {% if object.owner == user %}
+                <div>
+                    <a href="#" class="btn btn-secondary btn-sm mt-1 mb-1">Update</a>
+                    <a href="#" class="btn btn-danger btn-sm mt-1 mb-1">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <h2 class="article-title mt-3">{{ object.name }}</h2>
+        <p class="alert bg-light font-weight-bold">
+            Money To Reach: {{ object.target_money }} c.u.
+            <br/>
+            Theme: {{ object.theme }}
+        </p>
+        <p class="article-content px-3">{{ object.description }}</p>
+        <h2 class="article-title">Bonuses:</h2>
+        <div class="mb-3">
+            {% for bonus in object.bonuses.all %}
+            <div class="card mb-1">
+                <div class="card-body">
+                    <h5 class="card-title">{{ bonus.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-info">Price: {{ bonus.price }} c.u.</h6>
+                    <p class="card-text">{{ bonus.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h3>Gallery</h3>
+
+                    <!-- PHOTO GALLERY -->
+                    <section class="photo_gallery">
+                        {% for gallery_image in object.images.all %}
+                        <a href="{{ gallery_image.image.url }}"><img src="{{ gallery_image.image.url }}" alt=""
+                                                                     title=""/></a>
+                        {% endfor %}
+                    </section>
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <iframe width="560" height="315" src="{{ object.video_URL }}"
+                    title="Campaign video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</article>
+{% endblock content %}
