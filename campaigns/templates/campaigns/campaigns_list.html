@@ -13,28 +13,29 @@
               <p class="alert bg-light font-weight-bold">Money To Reach: {{ item.target_money }} c.u.</p>
               <p class="article-content px-3">{{ item.description }}</p>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <h3>Gallery</h3>
+            {% if item.images.all %}
+              <div class="container">
+                  <div class="row">
+                      <div class="col">
+                          <h3>Gallery</h3>
+                          <!-- PHOTO GALLERY -->
+                          <section class="photo_gallery">
 
-                        <!-- PHOTO GALLERY -->
-                        <section class="photo_gallery">
-                            {% for gallery_image in item.images.all %}
-                              {% if forloop.counter0 < 2 %}
-                                <a href="{{ gallery_image.image.url }}"><img src="{{ gallery_image.image.url }}" alt=""
-                                                                             title=""/></a>
-                              {% else %}
-                                <a class="ghost" href="{{ gallery_image.image.url }}"><img
-                                                 src="{{ gallery_image.image.url }}" alt=""
-                                                 title=""/></a>
-                              {% endif %}
-                            {% endfor %}
-                        </section>
-
-                    </div>
-                </div>
-            </div>
+                                {% for gallery_image in item.images.all %}
+                                  {% if forloop.counter0 < 2 %}
+                                    <a href="{{ gallery_image.image.url }}"><img src="{{ gallery_image.image.url }}" alt=""
+                                                                                 title=""/></a>
+                                  {% else %}
+                                    <a class="ghost" href="{{ gallery_image.image.url }}"><img
+                                                     src="{{ gallery_image.image.url }}" alt=""
+                                                     title=""/></a>
+                                  {% endif %}
+                                {% endfor %}
+                          </section>
+                      </div>
+                  </div>
+              </div>
+            {% endif %}
         </article>
     {% endfor %}
     {% if is_paginated %}

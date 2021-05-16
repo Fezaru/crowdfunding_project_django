@@ -26,15 +26,20 @@ class Campaign(models.Model):
     end_date = models.DateTimeField(default=timezone.now)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('campaigns-detail', kwargs={'pk': self.pk})
 
     @property
     def get_video(self):
         url = str(self.video_URL)
         parts = url.split('watch?v=')
-        return parts[0] + 'embed/' + parts[1] + '?rel=0'
+        try:
+            return parts[0] + 'embed/' + parts[1] + '?rel=0'
+        except Exception:
+            return 'error'
 
 
 def upload_gallery_image(instance, filename):  # change when the gallery is in the cloud
@@ -50,10 +55,16 @@ class Bonus(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('campaigns-detail', kwargs={'pk': self.campaign.pk})
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to=upload_gallery_image)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name="images")
+
+    def get_absolute_url(self):
+        return reverse('campaigns-detail', kwargs={'pk': self.campaign.pk})
 
 
 class News(models.Model):
@@ -62,3 +73,6 @@ class News(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='news_pics')
     date_posted = models.DateTimeField(default=timezone.now)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('campaigns-detail', kwargs={'pk': self.campaign.pk})
