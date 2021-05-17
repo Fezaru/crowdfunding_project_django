@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import News, Campaign, Bonus, Image
+from .models import News, Campaign, Bonus, Image, UserBonus
 from django.views.generic import (
     ListView,
     DetailView,
@@ -134,6 +136,14 @@ class BonusesDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == bonus.campaign.owner:
             return True
         return False
+
+
+@login_required()
+def BonusPurchaseView(request, pk1, pk2):
+    users_bonus = UserBonus(user=request.user, bonus=Bonus.objects.get(id=pk2))
+    users_bonus.save()
+    messages.success(request, 'Purchase completed')
+    return redirect('campaigns-detail', pk1)
 
 
 class ImagesCreateView(LoginRequiredMixin, CreateView):

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from campaigns.models import UserBonus, Campaign
 
 
 def register(request):
@@ -32,8 +33,13 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
+    bonuses = UserBonus.objects.filter(user=request.user)
+    campaigns = Campaign.objects.filter(owner=request.user)
+
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'bonuses': bonuses,
+        'campaigns': campaigns,
     }
     return render(request, 'users/profile.html', context)

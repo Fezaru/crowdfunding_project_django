@@ -10,15 +10,47 @@
         </div>
       </div>
       <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Profile Info</legend>
-                {{ u_form|crispy }}
-                {{ p_form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Update</button>
-            </div>
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        {% if user.campaign_set.count > 0 %}
+          <h3 class="article-title">My Campaigns</h3>
+          <div class="mb-3">
+            {% for campaign in campaigns %}
+              <div class="card mb-1">
+                <div class="card-body">
+                    <h5><a class="article-title" href="{% url 'campaigns-detail' campaign.id %}">{{ campaign.name }}</a></h5>
+                    <div>
+                    <a href="{% url 'news-create' campaign.id %}" class="btn btn-info btn-sm mt-1 mb-1">Post News</a>
+                    <a href="{% url 'campaigns-update' campaign.id %}" class="btn btn-secondary btn-sm mt-1 mb-1">Update</a>
+                    <a href="{% url 'campaigns-delete' campaign.id %}" class="btn btn-danger btn-sm mt-1 mb-1">Delete</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if bonuses.count > 0 %}
+          <h3 class="article-title">Purchased Bonuses</h3>
+          <div class="mb-3">
+            {% for item in bonuses %}
+              <div class="card mb-1">
+                <div class="card-body">
+                  <h5><a class="article-title border-bottom pb-2" href="{% url 'campaigns-detail' item.bonus.campaign.id %}">{{ item.bonus.campaign.name }}</a></h5>
+                  <h5 class="card-title pt-2">{{ item.bonus.name }}</h5>
+                  <h6 class="card-subtitle mb-2 text-info">Price: {{ item.bonus.price }} c.u.</h6>
+                  <p class="card-text">{{ item.bonus.description }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
       </form>
     </div>
 {% endblock content %}
