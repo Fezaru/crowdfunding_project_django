@@ -75,7 +75,7 @@ class News(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('campaigns-detail', kwargs={'pk': self.campaign.pk})
+        return '/'
 
 
 class UserBonus(models.Model):
