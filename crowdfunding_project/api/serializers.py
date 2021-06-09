@@ -9,22 +9,36 @@ from campaigns.models import (
 
 
 class BonusSerializer(serializers.ModelSerializer):
+    campaign_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Bonus
-        fields = ['name', 'price', 'description']
+        fields = ['name', 'price', 'description', 'campaign_name']
+
+    def get_campaign_name(self, bonus):
+        return bonus.campaign.name
 
 
 class NewsSerializer(serializers.ModelSerializer):
-    # добавить поле компании???
+    campaign_name = serializers.SerializerMethodField()
+
     class Meta:
         model = News
-        fields = ['title', 'content', 'date_posted', 'image']
+        fields = ['title', 'content', 'date_posted', 'image', 'campaign_name']
+
+    def get_campaign_name(self, bonus):
+        return bonus.campaign.name
 
 
 class ImageSerializer(serializers.ModelSerializer):
+    campaign_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Image
-        fields = ['image']
+        fields = ['image', 'campaign_name']
+
+    def get_campaign_name(self, bonus):
+        return bonus.campaign.name
 
 
 # class UserSerializer(serializers.ModelSerializer):

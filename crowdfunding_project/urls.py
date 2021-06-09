@@ -23,9 +23,10 @@ from users import views as user_views
 from rest_framework import routers
 from crowdfunding_project.api import views
 
-
+# ***DRF***
 router = routers.DefaultRouter()
 router.register(r'campaigns', views.CampaignViewSet)
+router.register(r'bonuses', views.BonusViewSet)
 
 
 urlpatterns = [
