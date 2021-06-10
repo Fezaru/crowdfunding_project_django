@@ -27,6 +27,7 @@ from crowdfunding_project.api import views
 router = routers.DefaultRouter()
 router.register(r'campaigns', views.CampaignViewSet)
 router.register(r'bonuses', views.BonusViewSet)
+router.register(r'news', views.NewsViewSet)
 
 
 urlpatterns = [

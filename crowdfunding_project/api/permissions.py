@@ -16,9 +16,7 @@ class ModifyIfOwnerOrRead(permissions.BasePermission):
         if view.action in ['update', 'partial_update', 'destroy']:
             if type(obj) == Campaign:
                 return obj.owner == request.user or request.user.is_staff
-            elif type(obj) == Bonus:
-                return obj.campaign.owner == request.user or request.user.is_staff
             else:
-                return False  # пересмотреть
+                return obj.campaign.owner == request.user or request.user.is_staff
         else:
             return True
