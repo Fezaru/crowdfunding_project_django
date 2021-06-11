@@ -16,7 +16,7 @@ CAMPAIGN_THEME_CHOICES = (
 
 
 class Campaign(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     theme = models.CharField(max_length=255, choices=CAMPAIGN_THEME_CHOICES, default='all')
     tags = models.CharField(max_length=255)
